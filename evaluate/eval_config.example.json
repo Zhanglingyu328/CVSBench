@@ -1,0 +1,80 @@
+{
+  "thresholds": {
+    "bbox_iou": 0.3,
+    "point_l2": 0.15,
+    "angle_deg": 25.0,
+    "point_l2_level4": 0.15,
+    "angle_deg_level4": 30.0,
+    "bbox_iou_level4": 0.35,
+    "bbox_iou_level5": 0.4
+  },
+  "adaptive": {
+    "enabled": false,
+    "start_level": 3,
+    "steps": 3
+  },
+  "models": [
+    {
+      "name": "example-model",
+      "backend": "openai_compat",
+      "model": "your-model-name",
+      "base_url": "http://localhost:8000/v1",
+      "api_key": "YOUR_API_KEY_IF_NEEDED",
+      "concurrency": 4,
+      "timeout": 60,
+      "max_retries": 3
+    }
+  ],
+  "datasets": [
+    {
+      "name": "cvusa_vqa_g2s_test",
+      "path": "cvusa/g2s/Ground2Sat_VQA_test.jsonl",
+      "type": "g2s"
+    },
+    {
+      "name": "cvusa_vqa_s2g_test",
+      "path": "cvusa/s2g/Sat2Ground_VQA_test.jsonl",
+      "type": "s2s"
+    },
+    {
+      "name": "cvusa_bbox_g2s_test",
+      "path": "cvusa/gs_grounding/Ground2Sat_5level_test.jsonl",
+      "type": "gs_grounding"
+    },
+    {
+      "name": "cvusa_bbox_s2g_test",
+      "path": "cvusa/gs_grounding/Sat2Ground_5level_test.jsonl",
+      "type": "gs_grounding"
+    },
+    {
+      "name": "fov_vqa_g2s_test",
+      "path": "fov/g2s/Ground2Sat_VQA_test.jsonl",
+      "type": "g2s"
+    },
+    {
+      "name": "fov_vqa_s2g_test",
+      "path": "fov/s2g/Sat2Ground_VQA_test.jsonl",
+      "type": "s2s"
+    },
+    {
+      "name": "fov_bbox_g2s_test",
+      "path": "fov/gs_grounding/Ground2Sat_5level_test.jsonl",
+      "type": "gs_grounding"
+    },
+    {
+      "name": "fov_bbox_s2g_test",
+      "path": "fov/gs_grounding/Sat2Ground_5level_test.jsonl",
+      "type": "gs_grounding"
+    },
+    {
+      "name": "fov_gs_view_arrow_select_test",
+      "path": "fov/gs_view/arrow_select_test.jsonl",
+      "type": "ge_view"
+    },
+    {
+      "name": "fov_gs_view_arrow_street_test",
+      "path": "fov/gs_view/arrow_street_test.jsonl",
+      "type": "ge_view"
+    }
+  ]
+}
