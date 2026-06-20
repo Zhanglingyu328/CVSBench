@@ -51,7 +51,7 @@ The project is organized across three entry points:
 - GitHub: [Zhanglingyu328/CVSBench](https://github.com/Zhanglingyu328/CVSBench)
 - Dataset: [zlyzlyzly/CVSBench](https://huggingface.co/datasets/zlyzlyzly/CVSBench)
 - Project Page: [zlyzlyzly/CVSBench](https://zhanglingyu328.github.io/CVSBench/)
-- Paper: `[TBD]`
+- Paper: to be released
 
 ## 📦 Dataset Download
 
