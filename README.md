@@ -11,7 +11,7 @@
 <h4>
 
 <a href="PAPER_LINK">📄 Paper</a> |
-<a href="PROJECT_PAGE">🌐 Project Page</a> |
+<a href="https://zhanglingyu328.github.io/CVSBench/">🌐 Project Page</a> |
 <a href="https://huggingface.co/datasets/zlyzlyzly/CVSBench">🤗 Dataset</a> |
 <a href="https://github.com/Zhanglingyu328/CVSBench">💻 GitHub</a>
 
@@ -50,7 +50,7 @@ The project is organized across three entry points:
 
 - GitHub: [Zhanglingyu328/CVSBench](https://github.com/Zhanglingyu328/CVSBench)
 - Dataset: [zlyzlyzly/CVSBench](https://huggingface.co/datasets/zlyzlyzly/CVSBench)
-- Project Page: `[TBD]`
+- Project Page: [zlyzlyzly/CVSBench](https://zhanglingyu328.github.io/CVSBench/)
 - Paper: `[TBD]`
 
 ## 📦 Dataset Download
