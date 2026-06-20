@@ -93,14 +93,12 @@ evaluate/
 ```text
 CVSBench/
 ├── README.md
-├── requirements.txt
 ├── evaluate/
 │   ├── eval.py
 │   ├── eval_double_category.py
 │   ├── summarize_results.py
 │   ├── eval_config.example.json
 │   └── requirements.txt
-├── training/
 ├── docs/
 │   ├── index.html
 │   └── pic/
@@ -195,9 +193,7 @@ Main task families include:
 
 In addition, `nanobanana` is not a question category. It refers to generated 3D miniature building-model images used as auxiliary visual inputs for visual imagination experiments.
 
-<p align="center">
-  <img src="assets/task_examples.png" width="95%">
-</p>
+
 
 ### Using Your Own Model
 
