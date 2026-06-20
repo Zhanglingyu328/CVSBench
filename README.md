@@ -1,135 +1,302 @@
-# CVSBench Evaluation Scripts
+<div align="center">
 
-This folder contains public-facing evaluation scripts for CVSBench-style tasks, including:
+# 🌍 CVSBench Evaluation Toolkit
 
-- single-image and multi-image VQA / MCQ evaluation
-- cross-view grounding / bbox evaluation
-- category-aware result summarization
-- two-image ablation evaluation for extra visual inputs
+### A Benchmark for Cross-View Spatial Reasoning and Dreaming
 
-The scripts are adapted from internal research code and cleaned so they can be shared in a public GitHub repository.
+[![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-yellow)](https://huggingface.co/datasets/zlyzlyzly/CVSBench)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)]()
+[![License](https://img.shields.io/badge/License-Apache--2.0-green.svg)](LICENSE)
 
-## Files
+</div>
 
-- `eval.py`
-  Main evaluation entrypoint. Supports both VQA-style tasks and bbox / grounding tasks.
-- `eval_double_category.py`
-  Two-image evaluation script for FOV extra-input experiments such as depth, z-image, or nanobanana.
-- `summarize_results.py`
-  Recomputes and formats summary metrics from prediction files, with category-first grouping.
-- `eval_config.example.json`
-  Public example config with placeholder model settings.
-- `requirements.txt`
-  Minimal Python dependencies for these scripts.
+---
 
-## Supported task types in `eval.py`
+## 📖 Overview
 
-The main evaluator dispatches by `dataset["type"]`:
+**CVSBench** is a benchmark designed to evaluate the **cross-view spatial reasoning**, **cross-view grounding**, and **visual imagination** capabilities of multimodal foundation models.
 
-- `mcq_vqa`
-  Generic MCQ VQA format from older scripts.
-- `g2s`
-  Ground-to-satellite VQA.
-- `s2s`
-  Satellite-view VQA. In this codebase this is also used for many `s2g` question files.
-- `s2g`
-  Accepted in some helper paths and image pickers.
-- `ge_view`
-  FOV `gs_view` matching tasks.
-- `gs_grounding`
-  Cross-view grounding / bounding-box localization.
-- `bbox_5level`
-  Older multi-level bbox format.
-- `arrow_5level`, `arrow_mcq`
-  Older arrow-based tasks kept for compatibility.
+This repository provides the official evaluation toolkit used in CVSBench experiments, including:
 
-## Input assumptions
+* 📝 Cross-view VQA evaluation
+* 🎯 Cross-view grounding evaluation
+* 📊 Category-aware performance analysis
+* 🖼️ Multi-image evaluation with auxiliary visual inputs
+* 🤖 Evaluation of OpenAI-compatible APIs and local vision-language models
 
-### 1. VQA / MCQ
+> [!IMPORTANT]
+>
+> This repository contains **evaluation code only**.
+>
+> Dataset files are **NOT included** and must be downloaded separately from Hugging Face before running any evaluation.
 
-For `g2s`, `s2s`, `s2g`, and `ge_view`, each jsonl sample should contain the question, answer, options, and enough image fields for the script to resolve the correct image path.
+---
 
-The script stores the following category metadata directly into prediction files when present:
+# 📦 Dataset Download
 
-- `category`
-- `category_l1`
-- `category_l2`
+Download the official CVSBench dataset from:
 
-This makes later summarization more reliable.
+### 🤗 Hugging Face Dataset
 
-### 2. Grounding / bbox
+https://huggingface.co/datasets/zlyzlyzly/CVSBench
 
-For `gs_grounding`, the public version assumes a two-image setup whenever possible:
+After downloading and extracting the dataset, place the **`fov`** and **`cvusa`** directories directly inside the **`evaluate/`** folder.
 
-- image 1: source image
-- image 2: target image
-- output: bbox in the second image
+Required directory structure:
 
-For level-3 style grounding tasks, the first image may already contain the source bbox.
-
-The script also supports these fields when available:
-
-- `source_image`
-- `target_image`
-- `source_bbox`
-- `target_bbox`
-- `answer`
-- `answer_bbox`
-- `gt_bbox`
-- `region_hint`
-
-Combined-image fallback logic is still kept for backward compatibility, but the recommended public format is separate source and target images.
-
-## Running `eval.py`
-
-### Option A: OpenAI-compatible API
-
-1. Copy `eval_config.example.json` to your own config file.
-2. Set your model information in the config.
-3. Run:
-
-```bash
-python eval.py --config eval_config.json
+```text
+evaluate/
+├── eval.py
+├── eval_double_category.py
+├── summarize_results.py
+├── eval_config.example.json
+├── requirements.txt
+├── fov/
+│   ├── g2s/
+│   ├── s2g/
+│   ├── ge_view/
+│   └── ...
+└── cvusa/
+    ├── images/
+    ├── annotations/
+    └── ...
 ```
 
-You can also use environment variables:
+> [!WARNING]
+>
+> Evaluation scripts assume that both **`fov/`** and **`cvusa/`** are located directly inside the **`evaluate/`** directory.
+>
+> Moving these folders elsewhere may cause image loading and dataset path resolution failures.
+
+---
+
+# 🚀 Quick Start
+
+## 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/your-repo/CVSBench.git
+cd CVSBench/evaluate
+```
+
+---
+
+## 2️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 3️⃣ Download Dataset
+
+Download:
+
+```text
+https://huggingface.co/datasets/zlyzlyzly/CVSBench
+```
+
+Then place:
+
+```text
+fov/
+cvusa/
+```
+
+inside:
+
+```text
+evaluate/
+```
+
+Final structure:
+
+```text
+evaluate/
+├── eval.py
+├── eval_double_category.py
+├── summarize_results.py
+├── fov/
+└── cvusa/
+```
+
+---
+
+## 4️⃣ Run Evaluation
+
+### OpenAI-Compatible APIs
+
+Configure your API settings:
 
 ```bash
 export OPENAI_API_KEY=your_key
 export OPENAI_BASE_URL=http://localhost:8000/v1
-export EVAL_MODEL=your-model-name
+export EVAL_MODEL=your-model
+```
+
+Run:
+
+```bash
 python eval.py --config eval_config.json
 ```
 
-This works for remote APIs or locally deployed OpenAI-compatible servers such as vLLM or similar serving stacks.
+Compatible with:
 
-### Option B: Local Transformers model
+* OpenAI API
+* vLLM
+* SGLang
+* LMDeploy
+* Other OpenAI-compatible servers
 
-The current public local path supports:
+---
 
-- `LOCAL_MODEL_FAMILY=qwen3vl`
-- `LOCAL_MODEL_FAMILY=gemma3`
+### Local Models
+
+Currently supported:
+
+```text
+qwen3vl
+gemma3
+```
 
 Example:
 
 ```bash
 export LOCAL_TRANSFORMERS=1
 export LOCAL_MODEL_FAMILY=qwen3vl
-export LOCAL_MODEL_PATH=/path/to/your/local/model
+export LOCAL_MODEL_PATH=/path/to/model
+
 python eval.py --config eval_config.json
 ```
 
-If you want to use another local model family, add a new adapter in `eval.py` or serve it behind an OpenAI-compatible API.
+> [!TIP]
+>
+> Additional model families can be easily added by implementing new adapters in `eval.py`.
 
-## Running `eval_double_category.py`
+---
 
-This script is for two-image evaluation with an extra modality or generated view.
+# 📂 Repository Structure
 
-Supported `--extra-kind` values:
+```text
+evaluate/
+├── eval.py
+├── eval_double_category.py
+├── summarize_results.py
+├── eval_config.example.json
+├── requirements.txt
+├── fov/
+└── cvusa/
+```
 
-- `depth`
-- `zimage`
-- `nanobanana`
+| File                       | Description                             |
+| -------------------------- | --------------------------------------- |
+| `eval.py`                  | Main evaluation entry point             |
+| `eval_double_category.py`  | Evaluation with auxiliary visual inputs |
+| `summarize_results.py`     | Aggregate and summarize results         |
+| `eval_config.example.json` | Example configuration                   |
+| `requirements.txt`         | Python dependencies                     |
+
+---
+
+# 🎯 Supported Tasks
+
+The evaluator dispatches according to:
+
+```python
+dataset["type"]
+```
+
+Supported task types:
+
+| Type           | Description               |
+| -------------- | ------------------------- |
+| `g2s`          | Ground-to-Satellite VQA   |
+| `s2g`          | Satellite-to-Ground VQA   |
+| `s2s`          | Satellite-view VQA        |
+| `ge_view`      | Cross-view matching       |
+| `gs_grounding` | Cross-view grounding      |
+| `mcq_vqa`      | Generic MCQ VQA           |
+| `bbox_5level`  | Legacy bbox localization  |
+| `arrow_5level` | Legacy arrow localization |
+| `arrow_mcq`    | Legacy arrow MCQ          |
+
+---
+
+# 📝 VQA Evaluation
+
+Supported formats:
+
+```text
+g2s
+s2g
+s2s
+ge_view
+```
+
+Each JSONL sample should contain:
+
+* Question
+* Answer
+* Options
+* Required image fields
+
+Category information is automatically stored in prediction files:
+
+```json
+{
+  "category": "...",
+  "category_l1": "...",
+  "category_l2": "..."
+}
+```
+
+This enables reliable downstream category-level analysis.
+
+---
+
+# 🎯 Grounding Evaluation
+
+Recommended public format:
+
+```text
+Image 1 : Source Image
+Image 2 : Target Image
+Output  : Bounding Box in Target Image
+```
+
+Supported fields:
+
+```text
+source_image
+target_image
+source_bbox
+target_bbox
+answer
+answer_bbox
+gt_bbox
+region_hint
+```
+
+> [!NOTE]
+>
+> Separate source and target images are recommended.
+>
+> Combined-image formats remain supported for backward compatibility.
+
+---
+
+# 🖼️ Two-Image Evaluation
+
+For experiments involving auxiliary visual information such as depth maps or generated views:
+
+Supported auxiliary inputs:
+
+| Type         |
+| ------------ |
+| `depth`      |
+| `zimage`     |
+| `nanobanana` |
 
 Example:
 
@@ -142,60 +309,94 @@ python eval_double_category.py \
   --s2g-path fov/s2g/Sat2Ground_VQA_test.jsonl
 ```
 
-This script writes:
+Generated outputs include:
 
-- per-split prediction files
-- missing-pair diagnostics
-- per-category tables
-- `summary.json`
+* ✅ Prediction files
+* ✅ Missing-pair diagnostics
+* ✅ Category tables
+* ✅ Summary reports
 
-All paths are exposed as CLI arguments so the script can be moved to a different machine without editing absolute paths.
+---
 
-## Summarizing results
+# 📊 Result Summarization
 
-After evaluation, run:
+After evaluation:
 
 ```bash
 python summarize_results.py --root outputs
 ```
 
-The summarizer now prefers category fields saved directly in predictions:
+Category lookup priority:
 
-1. `category_l1` / `category_l2`
-2. `category`
+```text
+1. category_l1 / category_l2
+2. category
 3. dataset qid mapping
 4. option-signature fallback
+```
 
-This is intentional so that public prediction files remain self-contained.
+This design keeps public prediction files fully self-contained.
 
-## Output structure
+---
 
-By default, results are written under:
+# 📁 Output Structure
 
 ```text
 outputs/
-  model_name/
-    dataset_name/
-      predictions.jsonl
-      metrics.json
-    summary.json
+└── model_name/
+    ├── dataset_name/
+    │   ├── predictions.jsonl
+    │   └── metrics.json
+    └── summary.json
 ```
 
-`eval_double_category.py` also writes category tables and generated split files.
+Additional files generated by `eval_double_category.py`:
 
-## What to edit before GitHub release
+* category tables
+* split files
+* summary reports
 
-Before publishing, you should still check:
+---
 
-- dataset paths in your config
-- whether your released jsonl files use `s2s` or `s2g` as the satellite-to-ground type label
-- whether you want to keep backward-compatible old task types in `eval.py`
-- whether you want to add support for more local model families
+# 🔧 Before Running
 
-## Notes
+Please verify:
 
-- These scripts do not assume a specific commercial API provider.
-- Private endpoints, secrets, and internal notification hooks have been removed.
-- The recommended public setup is either:
-  - an OpenAI-compatible model server
-  - or a local Hugging Face model with a supported adapter
+* [ ] Dataset downloaded from Hugging Face
+* [ ] `fov/` exists under `evaluate/`
+* [ ] `cvusa/` exists under `evaluate/`
+* [ ] API credentials configured correctly
+* [ ] Local model path configured correctly (if applicable)
+
+---
+
+# 📌 Notes
+
+* This repository contains evaluation scripts only.
+* Dataset files must be downloaded separately.
+* Private APIs and internal infrastructure have been removed.
+* Both local and API-based evaluation are supported.
+* The toolkit is designed to be easily extended to additional multimodal models.
+
+---
+
+# 🙏 Citation
+
+If you find CVSBench useful in your research, please cite our paper:
+
+```bibtex
+@article{cvsbench2026,
+  title={CVSBench: A Comprehensive Benchmark for Cross-View Spatial Reasoning and Dreaming},
+  author={...},
+  journal={ECCV},
+  year={2026}
+}
+```
+
+---
+
+# ⭐ Acknowledgement
+
+We thank the open-source vision-language community for making large-scale multimodal evaluation possible.
+
+If this repository helps your research, please consider giving it a ⭐ Star.
