@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌍 CVSBench
+# 🌍 CVSBench [ECCV 2026]
 
 ### Cross-View Spatial Reasoning and Dreaming Benchmark
 
