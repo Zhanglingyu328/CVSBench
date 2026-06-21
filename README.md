@@ -11,9 +11,9 @@
 <h4>
 
 <a href="PAPER_LINK">📄 Paper</a> |
-<a href="https://github.com/earth-insights/CVSBench">🌐 Project Page</a> |
+<a href="https://earth-insights.github.io/CVSBench/">🌐 Project Page</a> |
 <a href="https://huggingface.co/datasets/zlyzlyzly/CVSBench">🤗 Dataset</a> |
-<a href="https://github.com/Zhanglingyu328/CVSBench">💻 GitHub</a>
+<a href="https://github.com/earth-insights/CVSBench">💻 GitHub</a>
 
 </h4>
 
