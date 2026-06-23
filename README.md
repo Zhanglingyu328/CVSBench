@@ -51,7 +51,7 @@ The project is organized across three entry points:
 - GitHub: https://github.com/earth-insights/CVSBench
 - Dataset: [zlyzlyzly/CVSBench](https://huggingface.co/datasets/zlyzlyzly/CVSBench)
 - Project Page: https://earth-insights.github.io/CVSBench/
-- Paper: to be released
+- Paper: [Arxiv](http://arxiv.org/abs/2606.22476)
 
 ## 📦 Dataset Download
 
