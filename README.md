@@ -10,7 +10,7 @@
 
 <h4>
 
-<a href="PAPER_LINK">📄 Paper</a> |
+<a href="http://arxiv.org/abs/2606.22476">📄 Paper</a> |
 <a href="https://earth-insights.github.io/CVSBench/">🌐 Project Page</a> |
 <a href="https://huggingface.co/datasets/zlyzlyzly/CVSBench">🤗 Dataset</a> |
 <a href="https://github.com/earth-insights/CVSBench">💻 GitHub</a>
@@ -247,9 +247,17 @@ python evaluate/summarize_results.py --root outputs
 ```
 
 ## 🙏 Citation
-
-to be released
-
+```tex
+@misc{liu2026cvsbenchcomprehensivebenchmarkcrossview,
+      title={CVSBench: A Comprehensive Benchmark for Cross-view Spatial Reasoning and Dreaming}, 
+      author={Ruixun Liu and Lingyu Zhang and Lanxuan Xue and Kaiyu Li and Bowen Fu and Xiangyong Cao},
+      year={2026},
+      eprint={2606.22476},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2606.22476}, 
+}
+```
 ## ⚖️ License
 
 CC-BY-4.0
